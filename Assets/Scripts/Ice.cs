@@ -32,21 +32,7 @@ public class Ice : MonoBehaviour {
 
 
     private void OnTriggerStay(Collider other) {
-        if (other.gameObject.tag == "Player") {
-            if (!melting && meltable && !freezing) {
-                // 状态修正
-                melting = true;
-                freezable = true;
-                if (transform.localScale.x - decreaseScale <= minScale) {
-                    meltable = false;
-                }
-                // 融化动画
-                float scale = transform.localScale.x - decreaseScale;
-                scale = scale < 0f ? 0f : scale;
-                transform.DOScale(scale, meltDuration).SetEase(Ease.InOutBounce).OnComplete(MeltOver);
-            }
-        }
-        else if (other.gameObject.tag == "IcePlayer") {
+        if (other.gameObject.tag == "IcePlayer") {
             if (!freezing && freezable && !melting) {
                 // 状态修正
                 freezing = true;
@@ -58,6 +44,20 @@ public class Ice : MonoBehaviour {
                 float scale = transform.localScale.x + increaseScale;
                 scale = scale > 1f ? 1f : scale;
                 transform.DOScale(scale, freezeDuration).SetEase(Ease.InOutBounce).OnComplete(FreezeOver);
+            }
+        }
+        else if (other.gameObject.tag == "Player") {
+            if (!melting && meltable && !freezing) {
+                // 状态修正
+                melting = true;
+                freezable = true;
+                if (transform.localScale.x - decreaseScale <= minScale) {
+                    meltable = false;
+                }
+                // 融化动画
+                float scale = transform.localScale.x - decreaseScale;
+                scale = scale < 0f ? 0f : scale;
+                transform.DOScale(scale, meltDuration).SetEase(Ease.InOutBounce).OnComplete(MeltOver);
             }
         }
     }
